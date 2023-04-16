@@ -30,10 +30,11 @@ class HNLoader(WebBaseLoader):
         """Load comments from a HN post."""
         comments = soup_info.select("tr[class='athing comtr']")
         title = soup_info.select_one("tr[id='pagespace']").get("title")
+        main_link = soup_info.select_one("span[class='titleline']").get("a")
         return [
             Document(
                 page_content=comment.text.strip(),
-                metadata={"source": self.web_path, "title": title},
+                metadata={"source": self.web_path, "title": title, "main_link": main_link},
             )
             for comment in comments
         ]
